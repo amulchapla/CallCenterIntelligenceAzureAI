@@ -28,7 +28,7 @@ export default class App extends Component {
     alert('Your conversation will be saved with name : ' + this.state.value + ' Submit a different name to change it.');
     event.preventDefault();
   }
-  
+
   async componentDidMount() {
       // check for valid speech key/region
       const tokenRes = await getTokenOrRefresh();
@@ -47,13 +47,13 @@ export default class App extends Component {
 
       //Setting below specifies custom speech model ID that is created using Speech Studio
       speechConfig.endpointId = '5c0e6aec-f9b6-4da5-9228-a02b17d7a749';
-      
+
       //Setting below allows specifying custom GUID that can be used to correlnpate audio captured by Speech Logging
       speechConfig.setServiceProperty("clientConnectionId", this.state.value, speechsdk.ServicePropertyChannel.UriQueryParameter);
-      
+
       const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
       const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
-      
+
 
       this.setState({
           displayText: 'Speak into your microphone to start conversation...' + this.state.value
@@ -87,10 +87,10 @@ export default class App extends Component {
 
       recognizer.recognized = (s, e) => {
           if(e.result.reason === ResultReason.RecognizedSpeech){
-              resultText += `\n${e.result.text}` 
+              resultText += `\n${e.result.text}`
           }
           else if (e.result.reason === ResultReason.NoMatch) {
-              resultText += `\nNo Match` 
+              resultText += `\nNo Match`
           }
 
           this.setState({
@@ -131,14 +131,14 @@ export default class App extends Component {
       });
   }
 
-  
-  
+
+
 
   render() {
       return (
           <Container className="app-container">
               <h3 className="display-4 mb-3">Realtime Call Intelligence Simulation-Azure AI</h3>
-              <h3 className="display-4 mb-3">--------------------------------------</h3>
+              <h3 className="display-4 mb-3">---This covnersation will be recorded for demo---</h3>
 
               <form onSubmit={this.handleSubmit}>
                     <label>
@@ -155,11 +155,11 @@ export default class App extends Component {
 
                       <div className="mt-2">
                           <label htmlFor="audio-file"><i className="fas fa-file-audio fa-lg mr-2"></i></label>
-                          <input 
-                              type="file" 
-                              id="audio-file" 
-                              onChange={(e) => this.fileChange(e)} 
-                              style={{display: "none"}} 
+                          <input
+                              type="file"
+                              id="audio-file"
+                              onChange={(e) => this.fileChange(e)}
+                              style={{display: "none"}}
                           />
                           Convert speech to text from an audio file.
                       </div>
