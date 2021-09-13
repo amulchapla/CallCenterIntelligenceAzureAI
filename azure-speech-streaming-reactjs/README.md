@@ -42,7 +42,10 @@ This sample uses Express.js backend framework which allows you to make http call
     +	If Express.js backend “speechexpressbacked”running on Azure. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
     +	Open a browser and go to `http://localhost:3000` to access the app. Click on the microphone icon on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
 
+
+
     <img src="common/images/sampleoutputrealtimetranscription.PNG " align="center" />
+
 
     +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myspeechreactfrontend.azurewebsites.net`
 
