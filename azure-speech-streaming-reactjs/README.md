@@ -1,6 +1,8 @@
 # Real-time Transcription using Azure Speech in ReactJS
 
-This sample shows how to integrate the Azure Speech service into a sample React application. This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone or file for speech-to-text conversions.
+This sample simulates call center intelligence in real-time using Azure AI services. The code also records the conversation to Azure storage using the conversation ID provided by the user on web UI.
+
+This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone or file for speech-to-text conversions.
 
 Below architecture diagram depicts key components and API/communication sequence used in this sample
 <img src="common/images/speechstreamingdiagram.PNG" align="center" />
@@ -24,7 +26,7 @@ This sample uses Express.js backend framework which allows you to make http call
 
 
 2. **Prepare and run the Speech service Express.js backend**
-    -	Go to speechexpressbacked directory and run `npm install` to install dependencies.
+    -	Go to speechexpressbacked directory and run `npm install -all` to install dependencies.
     -	Update the “.env” file with your Azure Speech service key and Azure region. Azure Region value examples: “eastus2”, “westus”
     -	Start Speech service backend app by running `‘npm start’`
     -	If you are running this locally then try accessing below URLs from browser to verify that the backend component is working as expected
@@ -34,7 +36,7 @@ This sample uses Express.js backend framework which allows you to make http call
         *	`https://<<your backend Azure App service name>>/api/sayhello`
         *	`https://<<your backend Azure App service name>>/api/get-speech-token`
 3.	**Prepare and run the Speech client React.js frontend**
-    +	Go to speechreactfrontend directory and run `npm install` to install dependencies.
+    +	Go to speechreactfrontend directory and run `npm install -all` to install dependencies.
     +	Update “package.json” as following. Set value of “proxy” depending on where your Express.js backend is running. 
     +	If Express.js backend “speechexpressbacked” running on local machine then use `"proxy": "http://localhost:8080"`
     +	If Express.js backend “speechexpressbacked”running on Azure. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
