@@ -1,6 +1,6 @@
 # Getting started with the Call Batch Analytics
 
-This call batch analytics component using [Ingestion Client](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/ingestion) that helps transcribe your audio files without any development effort. The Ingestion Client monitors your dedicated Azure Storage container so that new audio files are transcribed automatically as soon as they land.
+This call batch analytics component is using [Ingestion Client](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/ingestion) that helps transcribe your audio files without any development effort. The Ingestion Client monitors your dedicated Azure Storage container so that new audio files are transcribed automatically as soon as they land.
 
 This tool uses multiple Azure Cognitive Services to get insights from call recordings. It uses Azure Speech to transcribe calls and then Azure Text Analytics for various analytics tasks (including sentiment analysis, PII detection/redection etc). Insights extracted by these Azure AI services are then stored to Azure SQL database for further analysis and visualization (using Power BI or other tools).
 
@@ -144,7 +144,7 @@ Do the same for the **FetchTranscription** function:
 
 ## Running Batch Analytics on Call Recordings
 
-1. Upload audio files to the newly created audio-input container.
+1. **Upload audio files to the newly created audio-input container**.
 
 
     Use Azure Portal or [Microsoft Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/) to upload call audio files to your new storage account in audio-input container. The process of transcription is asynchronous. Transcription usually takes half the time of the audio track to complete. The structure of your newly created storage account will look like the picture below.
@@ -153,4 +153,4 @@ Do the same for the **FetchTranscription** function:
 
     There are several containers to distinguish between the various outputs. We suggest (for the sake of keeping things tidy) to follow the pattern and use the audio-input container as the only container for uploading your audio.
 
-2. Check results of batch analytics: Once the batch process fiishes, results are added to json-result-output and test-results-output containers in the same storage account.
+2. **Check results of batch analytics**: Once the batch process fiishes, results are added to json-result-output and test-results-output containers in the same storage account.
