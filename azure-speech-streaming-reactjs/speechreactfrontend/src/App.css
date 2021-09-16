@@ -7,7 +7,7 @@
 }
 
 .fa-microphone:hover {
-  color: #0c6e47;
+  color: #d44916;
 }
 
 .fa-file-audio {
@@ -19,7 +19,14 @@
 }
 
 .output-display {
-  background-color: #383b4b;
+  background-color: #f9f6fa;
+  color: white;
+  height: 700px;
+}
+
+.nlpoutput-display {
+  background-color: #72e7ce;
+  color: white;
   height: 700px;
 }
 

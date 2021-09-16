@@ -25,3 +25,36 @@ export async function getTokenOrRefresh() {
         return { authToken: speechToken.slice(idx + 1), region: speechToken.slice(0, idx) };
     }
 }
+
+export async function getKeyPhrases(requestText) {      
+
+    try{
+        //Key Phrase extraction
+        const data = {transcript: requestText};
+        const headers = { 'Content-Type': 'application/json' };
+        
+        const res = await axios.post('/api/ta-key-phrases', data, {headers});                
+        
+        return res.data;
+        //return {keyPhrasesExtracted: keyPhrasesExtracted};
+    } catch (err) {       
+        return {keyPhrasesExtracted: "NoKP", entityExtracted: "NoEnt"};
+    }
+}
+
+export async function getKeyPhrasesOld(requestText) {      
+
+    try{
+        //Key Phrase extraction
+        const data = {transcript: requestText};
+        const headers = { 'Content-Type': 'application/json' };
+        
+        const res = await axios.post('/api/ta-key-phrases', data, {headers});    
+        //const keyPhrasesExtracted = JSON.stringify(res.body.keyPhraseResponse);        
+        
+        return res.data;
+        //return {keyPhrasesExtracted: keyPhrasesExtracted};
+    } catch (err) {       
+        return {keyPhrasesExtracted: "None"};
+    }
+}
