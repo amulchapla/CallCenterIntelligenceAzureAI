@@ -11,16 +11,16 @@ export default class App extends Component {
   constructor(props) {
       super(props);
 
-      this.state = {value: ''};
+      this.state = {color: 'white', value: '' };
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
 
       this.state = {
-          displayText: 'INITIALIZED: ready to test speech...',
+        color: 'white',   
+        displayText: 'INITIALIZED: ready to test speech...',
           displayNLPOutput: 'NLP Output: ...'
       };
-      
   }
 
   handleChange(event) {
@@ -49,7 +49,7 @@ export default class App extends Component {
       speechConfig.speechRecognitionLanguage = 'en-US';
 
       //Setting below specifies custom speech model ID that is created using Speech Studio
-      speechConfig.endpointId = '5c0e6aec-f9b6-4da5-9228-a02b17d7a749';
+      speechConfig.endpointId = 'd26026b7-aaa0-40bf-84e7-35054451a3f4';
 
       //Setting below allows specifying custom GUID that can be used to correlnpate audio captured by Speech Logging
       speechConfig.setServiceProperty("clientConnectionId", this.state.value, speechsdk.ServicePropertyChannel.UriQueryParameter);
@@ -62,7 +62,7 @@ export default class App extends Component {
       });      
 
       let resultText = "";
-      let nlpText = "KEY PHRASES IDENTIFIED: ";
+      let nlpText = " ";
       recognizer.sessionStarted = (s, e) => {
           resultText = "Session ID: " + e.sessionId;
 
@@ -75,45 +75,38 @@ export default class App extends Component {
         if(e.result.reason === ResultReason.RecognizedSpeech){
           
             //Display continuous transcript
-          resultText += `\n${e.result.text}`;    
-          this.setState({
-            displayText: resultText
-          });      
-          
-          //Perform continuous NLP
-          const nlpObj = await getKeyPhrases(e.result.text);    
-          
-          //Display extracted Key Phrases
-          if(nlpObj.keyPhrasesExtracted.length > 0){
-            nlpText += JSON.stringify(nlpObj.keyPhrasesExtracted); 
+            resultText += `\n${e.result.text}`;    
             this.setState({
-                displayNLPOutput: nlpText
-            }); 
-          }
+                displayText: resultText
+            });      
+            
+            //Perform continuous NLP
+            const nlpObj = await getKeyPhrases(e.result.text);              
+                
+            //Display extracted Key Phrases      
+            const keyPhraseText = JSON.stringify(nlpObj.keyPhrasesExtracted); 
+            if(keyPhraseText.length > 15){
+                //nlpText += "\n" + keyPhraseText;
+                //this.setState({ displayNLPOutput: nlpText }); 
+            }        
 
-          /*//Display extracted entities
-          if(nlpObj.entityExtracted.length > 0){
-            nlpText += JSON.stringify(nlpObj.entityExtracted); 
-            this.setState({
-                displayNLPOutput: nlpText
-            }); 
-          }*/
+            //Display extracted entities
+            const entityText = JSON.stringify(nlpObj.entityExtracted); 
+            if(entityText.length > 12){
+                nlpText += "\n" + entityText;
+                this.setState({ displayNLPOutput: nlpText.replace('<br/>', '\n') });
+            }         
 
-          //Display PII Detected         
-            nlpText += JSON.stringify(nlpObj.piiExtracted); 
-            this.setState({
-                displayNLPOutput: nlpText
-            }); 
-          
-
-          
-
-
-
-                   
+            //Display PII Detected               
+            const piiText = JSON.stringify(nlpObj.piiExtracted);
+            if(piiText.length > 21){
+                nlpText += "\n" + piiText; 
+                this.setState({ displayNLPOutput: nlpText.replace('<br/>', '\n') }); 
+            }                    
         }
         else if (e.result.reason === ResultReason.NoMatch) {
-            resultText += `\nNo Match`
+            //resultText += `\nNo Match`
+            resultText += `\n`
         }          
 
     };
@@ -166,7 +159,7 @@ export default class App extends Component {
                     </label>
                     <input type="submit" value="Submit" />
               </form>
-              <div style={{ color: 'green', fontSize: 20, display: 'flex', justifyContent:'center', alignItems:'center' }}>-----------------------------------------------------------</div>
+              
 
               <div className="col-6">
                       <i className="fas fa-microphone fa-lg mr-2" onClick={() => this.sttFromMic()}></i>
@@ -174,14 +167,16 @@ export default class App extends Component {
               </div>
               
               <div style={{ color: 'blue', fontSize: 20, display: 'flex', justifyContent:'center', alignItems:'center' }}>-----  Speech-to-text Output ----------------------------------------------------  AI-powered Call Insights ------</div>
-              <div className="row"> 
-                  <div className="col-6 output-display rounded ">
+              
+              <div className="row" style={{ height: 900}}> 
+                  <div className="col-6 output-display rounded" style={{ color: 'white', fontSize: 18, "borderWidth":"1px", 'borderColor':"black", 'borderStyle':'solid'}}>
                         <code>{this.state.displayText}</code>
                   </div>
-                  <div className="col-6 nlpoutput-display rounded ">                      
+                  <div className="col-6 nlpoutput-display rounded " style={{ color: 'green', fontSize: 18, "borderWidth":"1px", 'borderColor':"black", 'borderStyle':'solid'}}>                      
                       <code>{this.state.displayNLPOutput}</code>
                   </div>
-              </div>
+              </div>              
+
           </Container>
       );
   }

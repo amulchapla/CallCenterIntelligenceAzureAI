@@ -56,29 +56,41 @@ app.post('/api/ta-key-phrases', async (req, res) => {
         ];
         const textAnalyticsClient = new TextAnalyticsClient(textAnalyticsEndpoint,  new AzureKeyCredential(textAnalyticsKey));
 
+        let keyPhrasesText = "KEY PHRASES: ";
         const keyPhraseResult =  await textAnalyticsClient.extractKeyPhrases(keyPhrasesInput);             
         keyPhraseResult.forEach(document => {            
-            keyPhraseResponse = document.keyPhrases;            
+            keyPhraseResponse = document.keyPhrases;    
+            keyPhrasesText += document.keyPhrases;                   
         });   
 
+        let entityText = "ENTITIES: ";
         const entityResults = await textAnalyticsClient.recognizeEntities(keyPhrasesInput);        
         entityResults.forEach(document => {
-            console.log(`Document ID: ${document.id}`);
+            //console.log(`Document ID: ${document.id}`);
             document.entities.forEach(entity => {
                 if(entity.confidenceScore > 0.5){
-                    console.log(`\tName: ${entity.text} \tCategory: ${entity.category} \tSubcategory: ${entity.subCategory ? entity.subCategory : "N/A"}`);
+                    //console.log(`\tName: ${entity.text} \tCategory: ${entity.category} \tSubcategory: ${entity.subCategory ? entity.subCategory : "N/A"}`);
+                    const currentEntity = entity.category + ": " + entity.text;
+                    entityText += " " + currentEntity;
                     //console.log(`\tScore: ${entity.confidenceScore}`);                    
                 }
             });
         });          
 
+        let piiText = "PII Redacted Text: ";
         const piiResults = await textAnalyticsClient.recognizePiiEntities(keyPhrasesInput, "en");
         for (const result of piiResults) {
             if (result.error === undefined) {
-                console.log("Redacted Text: ", result.redactedText);
-                console.log(" -- Recognized PII entities for input", result.id, "--");
+                if(result.redactedText.indexOf('*') > -1){
+                    //console.log("Redacted Text: ", result.redactedText);
+                    piiText += result.redactedText;
+                    //console.log(" -- Recognized PII entities for input", result.id, "--");
+                }
+
                 for (const entity of result.entities) {
-                    console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
+                    //console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
+                    const currentEntity = entity.category + ": " + entity.text;
+                    piiText += currentEntity;
                 }
             } else {
                 console.error("Encountered an error:", result.error);
@@ -88,7 +100,8 @@ app.post('/api/ta-key-phrases', async (req, res) => {
 
         const headers = { 'Content-Type': 'application/json' };  
         res.headers = headers;                  
-        res.send({ keyPhrasesExtracted: keyPhraseResponse, entityExtracted: entityResults, piiExtracted: piiResults });
+        //res.send({ keyPhrasesExtracted: keyPhraseResponse, entityExtracted: entityResults, piiExtracted: piiResults });
+        res.send({ keyPhrasesExtracted: keyPhrasesText, entityExtracted: entityText, piiExtracted: piiText });
     } catch (err) {
         console.log(err);
         res.status(401).send('There was an error authorizing your text analytics key. Check your text analytics service key or endpoint to the .env file.');
