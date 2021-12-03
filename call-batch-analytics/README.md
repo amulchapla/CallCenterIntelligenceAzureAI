@@ -59,8 +59,21 @@ you could copy/paste the template in the editor.
 
 ![Save template](../common/images/image009.png)
 
-Saving the template will result in the screen below. You will need to fill in the form provided. It is
-important that all the information is correct. Let us look at the form and go through each field.
+Saving the template will result in the screen below. You will need to fill in the form provided. 
+
+**Following settings are required to be completed in this step.**
+1. Specify `Resource group` name. Recommended to create a new resource group.
+2. Specify `Storage Account` name. Recommended to create a new storage accout. 
+3. Provide an existing `Azure Speech Services Key`.
+4. Select `Azure Speech Services Region` that corresponds to your Azure Speech Services Key.
+5. Provide an existing `Text Analytics Key`.
+6. Select `Azure Text Analytics Region` that corresponds to your Text Analytics Key.
+7. Provide `Sql Administrator Login` and `Sql Administrator Login Password`. Make a note of this as we will need this in future steps.
+
+Other setting are options. You can change them if you wish.
+
+
+It is important that all the information is correct. Let us look at the form and go through each field.
 
 ![form template](../common/images/image011.png)
 
