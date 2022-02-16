@@ -3,6 +3,7 @@
 # dependencies
 /speechexpressbackend/node_modules
 /speechreactfrontend/node_modules
+/front-end-ui/node_modules
 /node_modules
 /.pnp
 .pnp.js
