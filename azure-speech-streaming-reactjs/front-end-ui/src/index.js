@@ -1,17 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from "./App.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from "./styles/theme";
+import { MsalProvider } from "@azure/msal-react";
+
 
 // MSAL Imports
 import { PublicClientApplication, EventType } from "@azure/msal-browser";
 import { msalConfig } from "./authConfig";
 
 // MSAL configuration
-export const msalInstance = new PublicClientApplication(msalConfig);
+const msalInstance = new PublicClientApplication(msalConfig);
 
 // Default to using the first account if no account is active on page load
 if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
@@ -34,7 +36,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={theme}>
-        <App pca={msalInstance}/>
+        <MsalProvider instance={msalInstance}>
+        <App/>
+        </MsalProvider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>,

@@ -14,10 +14,10 @@ const isFirefox = firefox > 0; // Only needed if you need to support the redirec
 // Config object to be passed to Msal on creation
 export const msalConfig = {
     auth: {
-        clientId: "3fba556e-5d4a-48e3-8e1a-fd57c12cb82e",
-        authority: "https://login.windows-ppe.net/common",
-        redirectUri: "/",
-        postLogoutRedirectUri: "/"
+        clientId: process.env.REACT_APP_CLIENT_ID,
+        authority: `https://login.microsoftonline.com/${process.env.REACT_APP_TENANT_ID}`,
+        redirectUri: process.env.REACT_APP_REDIRECT_URI,
+        postLogoutRedirectUri: process.env.REACT_APP_POST_LOGOUT_REDIRECT_URI
     },
     cache: {
         cacheLocation: "localStorage",
@@ -57,5 +57,5 @@ export const loginRequest = {
 
 // Add here the endpoints for MS Graph API services you would like to use.
 export const graphConfig = {
-    graphMeEndpoint: "https://graph.microsoft-ppe.com/v1.0/me"
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
 };
